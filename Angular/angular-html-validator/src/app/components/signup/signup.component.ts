@@ -40,13 +40,12 @@ export class SignupComponent implements OnInit {
   signup() {
     this.userService.signup(this.signupForm.value).subscribe((tokenObject) => {
       localStorage.setItem('token', tokenObject.token);
-      this.router.navigate(['/validate']);
       this.snackBar.open('Signup successful', '', {
         duration: 2000,
         verticalPosition: 'top',
         horizontalPosition: 'center'
       });
-      this.signupForm.reset();
+      location.href = '/validate';
     }, (error) => {
       this.snackBar.open('Signup failed', '', {
         duration: 2000,
