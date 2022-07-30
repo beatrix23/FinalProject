@@ -22,6 +22,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { ValidatorComponent } from './components/validator/validator.component';
 import { TokenService } from './interceptors/token.service';
+import { ActivateComponent } from './components/activate/activate.component';
 export function tokenGetter() {
   return localStorage.getItem('jwt');
 }
@@ -30,7 +31,8 @@ export function tokenGetter() {
     AppComponent,
     LoginComponent,
     SignupComponent,
-    ValidatorComponent
+    ValidatorComponent,
+    ActivateComponent
   ],
   imports: [
     BrowserModule,

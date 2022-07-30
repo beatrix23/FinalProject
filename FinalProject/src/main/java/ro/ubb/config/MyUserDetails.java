@@ -28,7 +28,7 @@ public class MyUserDetails implements UserDetailsService {
 
 		return org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword())
 				.authorities(Arrays.asList(new SimpleGrantedAuthority("user"))).accountExpired(false).accountLocked(false).credentialsExpired(false)
-				.disabled(false).build();
+				.disabled(!user.getActivated()).build();
 	}
 
 	public User loadUser(String email) {
@@ -42,7 +42,7 @@ public class MyUserDetails implements UserDetailsService {
 	public UserDetails getUserDetails(User user) {
 		return org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword())
 				.authorities(Arrays.asList(new SimpleGrantedAuthority("user"))).accountExpired(false).accountLocked(false).credentialsExpired(false)
-				.disabled(false).build();
+				.disabled(!user.getActivated()).build();
 	}
 
 }

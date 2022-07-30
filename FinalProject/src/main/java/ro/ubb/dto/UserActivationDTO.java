@@ -5,14 +5,14 @@ import java.util.Objects;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-public class UserDTO {
+public class UserActivationDTO {
 
 	@Email
 	@NotNull
 	private String email;
 
 	@NotNull
-	private String password;
+	private String code;
 
 	public String getEmail() {
 		return email;
@@ -22,17 +22,17 @@ public class UserDTO {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getCode() {
+		return code;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(password, email);
+		return Objects.hash(code, email);
 	}
 
 	@Override
@@ -43,13 +43,13 @@ public class UserDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserDTO other = (UserDTO) obj;
-		return Objects.equals(password, other.password) && Objects.equals(email, other.email);
+		UserActivationDTO other = (UserActivationDTO) obj;
+		return Objects.equals(code, other.code) && Objects.equals(email, other.email);
 	}
 
 	@Override
 	public String toString() {
-		return "UserDTO [username=" + email + ", password=" + password + "]";
+		return "UserDTO [username=" + email + ", code=" + code + "]";
 	}
 
 }

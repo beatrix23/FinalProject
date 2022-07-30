@@ -34,6 +34,13 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Validation> validations;
 
+	@Column
+	@NotNull
+	private Boolean activated;
+	
+	@Column
+	private String activationCode;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -66,9 +73,25 @@ public class User {
 		this.validations = validations;
 	}
 
+	public Boolean getActivated() {
+		return activated;
+	}
+
+	public void setActivated(Boolean activated) {
+		this.activated = activated;
+	}
+
+	public String getActivationCode() {
+		return activationCode;
+	}
+
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, password, username);
+		return Objects.hash(activated, activationCode, id, password, username, validations);
 	}
 
 	@Override
@@ -80,12 +103,14 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(id, other.id) && Objects.equals(password, other.password) && Objects.equals(username, other.username);
+		return Objects.equals(activated, other.activated) && Objects.equals(activationCode, other.activationCode) && Objects.equals(id, other.id)
+				&& Objects.equals(password, other.password) && Objects.equals(username, other.username) && Objects.equals(validations, other.validations);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", validations=" + validations + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", validations=" + validations + ", activated=" + activated
+				+ ", activationCode=" + activationCode + "]";
 	}
 	
 }

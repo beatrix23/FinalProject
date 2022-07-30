@@ -13,24 +13,26 @@ import { UserInfo } from 'src/app/models/user';
 })
 export class SignupComponent implements OnInit {
   hide = true;
-  signUp: UserInfo = { username: '', password: '' };
+  signUp: UserInfo = { email: '', password: '' };
   helper = new JwtHelperService();
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private userService: UserService,
     private snackBar: MatSnackBar
   ) { }
+
   signupForm!: FormGroup;
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
-  getUsername() {
-    return this.signupForm.get('username');
+  getEmail() {
+    return this.signupForm.get('email');
   }
 
   getPassword() { 
@@ -38,14 +40,15 @@ export class SignupComponent implements OnInit {
   }
 
   signup() {
-    this.userService.signup(this.signupForm.value).subscribe((tokenObject) => {
-      localStorage.setItem('token', tokenObject.token);
+    this.userService.signup(this.signupForm.value).subscribe(() => {
+      localStorage.setItem('email', this.signupForm.value.email);
       this.snackBar.open('Signup successful', '', {
         duration: 2000,
         verticalPosition: 'top',
         horizontalPosition: 'center'
       });
-      location.href = '/validate';
+      location.href = '/activate';
+      
     }, (error) => {
       this.snackBar.open('Signup failed', '', {
         duration: 2000,

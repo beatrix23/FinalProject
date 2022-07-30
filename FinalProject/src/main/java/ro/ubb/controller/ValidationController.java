@@ -12,7 +12,7 @@ import ro.ubb.dto.ValidationRequestDTO;
 import ro.ubb.service.ValidationService;
 
 @RestController
-@CrossOrigin(originPatterns = "*", allowCredentials = "true", allowedHeaders = "*")
+@CrossOrigin
 public class ValidationController {
 
 	@Autowired
@@ -23,7 +23,7 @@ public class ValidationController {
 		return validationService.validate(requestDTO);
 	}
 	
-	@GetMapping(value = "/validations", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/validations", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ValidationDTO> find(@RequestParam String href, @RequestParam Map<String, String> params){
 		return validationService.find(href);
 	}

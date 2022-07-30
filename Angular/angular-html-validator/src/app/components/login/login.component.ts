@@ -13,7 +13,7 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class LoginComponent implements OnInit {
 	hide = true;
-	logIn: UserInfo = { username: '', password: '' };
+	logIn: UserInfo = { email: '', password: '' };
 	helper = new JwtHelperService();
 	constructor(
 		private formBuilder: FormBuilder,
@@ -24,13 +24,13 @@ export class LoginComponent implements OnInit {
 	loginForm!: FormGroup;
 	ngOnInit(): void {
 		this.loginForm = this.formBuilder.group({
-			username: ['', Validators.required],
+			email: ['', Validators.required],
 			password: ['', Validators.required],
 		});
 	}
 
-	getUsername() {
-		return this.loginForm.get('username');
+	getEmail() {
+		return this.loginForm.get('email');
 	}
 
 	getPassword() {
