@@ -13,7 +13,6 @@ export class ValidationService {
   }
 
   public getHistory(href: string) {
-    console.log('http://localhost:8080/validations?href=' + href);
     return this.httpClient.get<any>('http://localhost:8080/validations?href=' + href);
   }
 }

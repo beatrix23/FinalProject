@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
         location.href = '/validate';
 			},
 			(error) => {
-				this.snackBar.open('Login failed', '', {
+				this.snackBar.open('Invalid username or password', '', {
 					duration: 2000,
 					verticalPosition: 'top',
 					horizontalPosition: 'center',

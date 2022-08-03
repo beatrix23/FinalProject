@@ -29,40 +29,44 @@
                 <button mat-raised-button color="accent" (click)="validate()">Validate</button>
             </mat-card-actions>
         </mat-card-content>
-        <div *ngIf="display">
-            <mat-card-subtitle>
-                <h5>*If you want to check your validation history of a certain link click on the <mat-icon>history
-                    </mat-icon> icon</h5>
-            </mat-card-subtitle>
-        </div>
     </mat-card-content>
 </div>
 <div>
-    <div *ngFor="let item of response" class="resp-container">
-        <mat-card-content>
-            <div class="link-container">
-                <div class="history">
-                    <button mat-stroked-button color="primary" (click)="history(item.href)">
-                        <mat-icon>history</mat-icon>
-                    </button>
+    <div *ngIf="showValidation">
+        <div *ngIf="showSpinner" id="spinner"> 
+            <mat-progress-spinner  [diameter]="40" mode="indeterminate"></mat-progress-spinner>
+        </div>
+        <div *ngFor="let item of response" class="resp-header">
+            <mat-card-content>
+                <div class="link-container">
+                    <div class="link">
+                        <mat-card-title>
+                            <h3>{{item.href}}</h3>
+                        </mat-card-title>
+                    </div>
+                    <div class="history">
+                        <button id="see-previous" (click)="history(item.href)">
+                            See Comparation with Previous Version
+                        </button>
+                    </div>
                 </div>
-                <div class="link">
-                    <mat-card-title>
-                        <h3>{{item.href}}</h3>
-                    </mat-card-title>
-                </div>
+                <div class="resp-container">
+                <mat-card-title>
+                    <div *ngFor="let message of item?.messages" class="validation">
+                        <div class="message">
+                            {{message.message}}
+                        </div>
+                        <div class="location">
+                            {{message.location}}
+                        </div>
+                    </div>
+                </mat-card-title>
             </div>
-            <mat-card-title>
-                <div *ngFor="let message of item?.messages" class="validation">
-                    <div class="location">
-                        {{message.location}}
-                    </div>
-                    <div class="message">
-                        {{message.message}}
-                    </div>
-                </div>
-            </mat-card-title>
-        </mat-card-content>
+            </mat-card-content>
+        </div>
+    </div>
+    <div *ngIf="showHistory" class="comparation">
+        <td-ngx-text-diff [left]="left" [right]="right" (compareResults)="onCompareResults($event)"></td-ngx-text-diff>
     </div>
 </div>
 

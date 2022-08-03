@@ -121,7 +121,7 @@ public class ValidationService {
 		boolean showSource = false;
 		MessageEmitter emitter = new TextMessageEmitter(out, false);
 		MessageEmitterAdapter errorHandler = new MessageEmitterAdapter(null, sourceCode, showSource, imageCollector, 0, false, emitter);
-		errorHandler.setErrorsOnly(true);
+		errorHandler.setErrorsOnly(false);
 
 		SimpleDocumentValidator validator = new SimpleDocumentValidator();
 		validator.setUpMainSchema("http://s.validator.nu/html5-rdfalite.rnc", new SystemErrErrorHandler());
@@ -135,8 +135,18 @@ public class ValidationService {
 		if (errors != null) {
 			String[] messages = errors.split("\n");
 			List<MessageDTO> list = new ArrayList<>();
-			for (int i = 0; i < messages.length; i = i + 2) {
-				list.add(new MessageDTO(messages[i], messages[i + 1]));
+			int i = 0;
+			int j = i + 1;
+			while (j < messages.length) {
+				if (!messages[j].matches("On line .*") && !messages[j].matches("At line .*") && !messages[j].matches("From line .*")) {
+					list.add(new MessageDTO(messages[i], ""));
+					i--;
+					j--;
+				} else {
+					list.add(new MessageDTO(messages[i], messages[j]));
+				}
+				i = i + 2;
+				j = j + 2;
 			}
 			return list;
 		}

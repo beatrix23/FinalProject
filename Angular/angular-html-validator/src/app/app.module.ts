@@ -15,6 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { JwtModule } from '@auth0/angular-jwt';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgxTextDiffModule } from 'ngx-text-diff';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +53,9 @@ export function tokenGetter() {
     MatSelectModule,
     MatGridListModule,
     MatToolbarModule,
+    MatProgressSpinnerModule, 
+    NgxTextDiffModule,
+    
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
