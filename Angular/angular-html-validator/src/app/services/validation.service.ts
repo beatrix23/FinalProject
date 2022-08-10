@@ -9,10 +9,11 @@ export class ValidationService {
   constructor(private httpClient: HttpClient) { }
 
   public validate(validation: Validation) {
-    return this.httpClient.post<any>('http://localhost:8080/validate', validation);
+    return this.httpClient.post<any>('http://localhost:8080/validate-link', validation);
   }
 
-  public getHistory(href: string) {
-    return this.httpClient.get<any>('http://localhost:8080/validations?href=' + href);
+  public getHistory(location: string) {
+    return this.httpClient.get<any>('http://localhost:8080/validations?location=' + location);
+    
   }
 }

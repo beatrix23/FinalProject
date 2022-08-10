@@ -1,104 +1,93 @@
 package ro.ubb.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "validation")
 public class Validation {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    private Integer id;
 
-	@JoinColumn(name = "id_user", nullable = false)
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private User user;
+    @JoinColumn(name = "id_user", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private User user;
 
-	@Column
-	private String href;
+    @Column(length = 512)
+    private String href;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "validation")
-	private List<ValidationMessage> validationMessages;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "validation")
+    private List<ValidationMessage> validationMessages;
 
-	@Column
-	private LocalDateTime dateCreated;
-	
-	public Integer getId() {
-		return id;
-	}
+    @Column
+    private LocalDateTime dateCreated;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public String getHref() {
-		return href;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setHref(String href) {
-		this.href = href;
-	}
+    public String getHref() {
+        return href;
+    }
 
-	public List<ValidationMessage> getValidationMessages() {
-		return validationMessages;
-	}
+    public void setHref(String href) {
+        this.href = href;
+    }
 
-	public void setValidationMessages(List<ValidationMessage> validationMessages) {
-		this.validationMessages = validationMessages;
-	}
+    public List<ValidationMessage> getValidationMessages() {
+        return validationMessages;
+    }
 
-	public LocalDateTime getDateCreated() {
-		return dateCreated;
-	}
+    public void setValidationMessages(List<ValidationMessage> validationMessages) {
+        this.validationMessages = validationMessages;
+    }
 
-	public void setDateCreated(LocalDateTime dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(dateCreated, href, id);
-	}
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Validation other = (Validation) obj;
-		return Objects.equals(dateCreated, other.dateCreated) && Objects.equals(href, other.href) && Objects.equals(id, other.id);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(dateCreated, href, id);
+    }
 
-	@Override
-	public String toString() {
-		return "Validation [id=" + id + ", user=" + user.getId() + ", href=" + href + ", validationMessages=" + validationMessages + ", dateCreated="
-				+ dateCreated + "]";
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Validation other = (Validation) obj;
+        return Objects.equals(dateCreated, other.dateCreated) && Objects.equals(href, other.href) && Objects.equals(id, other.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Validation [id=" + id + ", user=" + user.getId() + ", href=" + href + ", validationMessages=" + validationMessages + ", dateCreated="
+                + dateCreated + "]";
+    }
 
 }

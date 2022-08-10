@@ -22,6 +22,11 @@ export class AppComponent {
         this.showButton = true;
       } else {
         this.showButton = false;
+        this._snackBar.open("If you want to be able to compare you last validations please log in/register", "Ok", {
+          duration: 10000*10000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
       }
     }
 

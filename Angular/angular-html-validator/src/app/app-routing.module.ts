@@ -8,7 +8,7 @@ import { ValidatorComponent } from './components/validator/validator.component';
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent,
+    component: ValidatorComponent,
   },
   {
     path:'login',

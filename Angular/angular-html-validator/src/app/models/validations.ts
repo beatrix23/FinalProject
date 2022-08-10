@@ -1,4 +1,4 @@
 export interface Validation {
-    href: string;
+    location: string;
     entireWebsite: boolean;
 }

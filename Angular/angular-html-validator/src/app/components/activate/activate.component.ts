@@ -31,7 +31,7 @@ export class ActivateComponent implements OnInit {
         verticalPosition: 'top',
         horizontalPosition: 'center'
       });
-      this.router.navigate(['/login']);
+      location.href = '/validate';
     }, (error) => {
       this.snackBar.open('Activation failed', '', {
         duration: 2000,

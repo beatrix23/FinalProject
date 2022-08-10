@@ -55,6 +55,7 @@ export function tokenGetter() {
     MatToolbarModule,
     MatProgressSpinnerModule, 
     NgxTextDiffModule,
+
     
     JwtModule.forRoot({
       config: {

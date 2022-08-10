@@ -20,7 +20,7 @@
                 <div class="check-cont">
                     <mat-form-field class="example-full-width" appearance="fill">
                         <mat-label>URL to website:</mat-label>
-                        <input matInput placeholder="Ex. https://cokescan.ro/" [(ngModel)]="validation.href">
+                        <input matInput placeholder="Ex. https://cokescan.ro/" [(ngModel)]="validation.location">
                     </mat-form-field>
                     <mat-checkbox [(ngModel)]="validation.entireWebsite">Scan Entire Website
                     </mat-checkbox>
@@ -41,11 +41,11 @@
                 <div class="link-container">
                     <div class="link">
                         <mat-card-title>
-                            <h3>{{item.href}}</h3>
+                            <h3>{{item.location}}</h3>
                         </mat-card-title>
                     </div>
-                    <div class="history">
-                        <button id="see-previous" (click)="history(item.href)">
+                    <div *ngIf="seeComparation"class="history">
+                        <button id="see-previous" (click)="history(item.location)">
                             See Comparation with Previous Version
                         </button>
                     </div>
@@ -66,7 +66,8 @@
         </div>
     </div>
     <div *ngIf="showHistory" class="comparation">
-        <td-ngx-text-diff [left]="left" [right]="right" (compareResults)="onCompareResults($event)"></td-ngx-text-diff>
+        <td-ngx-text-diff [left]="right" [right]="left" (compareResults)="onCompareResults($event)">
+        </td-ngx-text-diff>
     </div>
 </div>
 

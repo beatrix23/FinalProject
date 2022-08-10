@@ -1,5 +1,5 @@
 import {Message} from './message';
 export interface ValidationResponse {
-    href: string;
+    location: string;
     messages: Message[];
 }

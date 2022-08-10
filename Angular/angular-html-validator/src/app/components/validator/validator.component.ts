@@ -4,7 +4,10 @@ import { ValidationService } from 'src/app/services/validation.service';
 import { ValidationResponse } from 'src/app/models/response';
 import { Message } from 'src/app/models/message';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DiffContent, DiffResults } from 'ngx-text-diff/lib/ngx-text-diff.model';
+import {
+	DiffContent,
+	DiffResults,
+} from 'ngx-text-diff/lib/ngx-text-diff.model';
 
 @Component({
 	selector: 'app-validator',
@@ -13,7 +16,7 @@ import { DiffContent, DiffResults } from 'ngx-text-diff/lib/ngx-text-diff.model'
 })
 export class ValidatorComponent implements OnInit {
 	displayedColumns: string[] = ['message', 'location'];
-	validation: Validation = { entireWebsite: false, href: '' };
+	validation: Validation = { entireWebsite: false, location: '' };
 	constructor(
 		private validationService: ValidationService,
 		private snackBar: MatSnackBar,
@@ -27,6 +30,7 @@ export class ValidatorComponent implements OnInit {
 	showValidation = true;
 	showHistory = false;
 	showSpinner = false;
+	seeComparation = true;
 
 	validate() {
 		this.showSpinner = true;
@@ -34,18 +38,30 @@ export class ValidatorComponent implements OnInit {
 		var regex = new RegExp(
 			'(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]',
 		);
-		if (regex.test(this.validation.href)) {
+		if (regex.test(this.validation.location)) {
 			this.response = [];
 			this.showSpinner = true;
 			console.log(this.validation);
 			this.validationService.validate(this.validation).subscribe(
 				(response: ValidationResponse[]) => {
-					if(response) {
+					if (response) {
 						this.showSpinner = false;
 					}
-					this.response = response;
-					this.showValidation = true;
-					this.showHistory = false;
+					if (response[0].messages.length === 0) {
+						this.showValidation = false;
+						this.snackBar.open('Your code is valid!', '', {
+							duration: 6000,
+							verticalPosition: 'top',
+							horizontalPosition: 'center',
+						});
+					} else {
+						this.response = response;
+						this.showValidation = true;
+						this.showHistory = false;
+						if (localStorage.getItem('token') == null) {
+							this.seeComparation = false;
+						}
+					}
 				},
 				(error) => {
 					console.log(error);
@@ -61,20 +77,22 @@ export class ValidatorComponent implements OnInit {
 		}
 	}
 
-	history(href: string) {
+	history(location: string) {
 		this.showSpinner = true;
-		this.validationService.getHistory(href).subscribe(
+		this.validationService.getHistory(location).subscribe(
 			(response: ValidationResponse[]) => {
-				if(response) {
+				if (response) {
 					this.showSpinner = false;
 				}
 				this.showValidation = false;
 				this.showHistory = true;
 				this.left = '';
-				for (let i = 0; i < response[1].messages.length; i++) {
-					this.left += response[1].messages[i].message + '\n';
-					this.left += response[1].messages[i].location + '\n';
-					this.left += '\n';
+				if (response.length > 1) {
+					for (let i = 0; i < response[1].messages.length; i++) {
+						this.left += response[1].messages[i].message + '\n';
+						this.left += response[1].messages[i].location + '\n';
+						this.left += '\n';
+					}
 				}
 				this.right = '';
 				for (let i = 0; i < response[0].messages.length; i++) {
@@ -94,6 +112,11 @@ export class ValidatorComponent implements OnInit {
 			},
 			(error) => {
 				console.log(error);
+				this.snackBar.open('No previous version was found', '', {
+					duration: 2000,
+					verticalPosition: 'top',
+					horizontalPosition: 'center',
+				});
 			},
 		);
 	}

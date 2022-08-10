@@ -1,49 +1,51 @@
 package ro.ubb.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class ValidationRequestDTO {
 
-	private String href;
-	
-	private boolean entireWebsite;
+    @NotNull
+    private String location;
 
-	public String getHref() {
-		return href;
-	}
+    private boolean entireWebsite;
 
-	public void setHref(String href) {
-		this.href = href;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public boolean isEntireWebsite() {
-		return entireWebsite;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	public void setEntireWebsite(boolean entireWebsite) {
-		this.entireWebsite = entireWebsite;
-	}
+    public boolean isEntireWebsite() {
+        return entireWebsite;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(entireWebsite, href);
-	}
+    public void setEntireWebsite(boolean entireWebsite) {
+        this.entireWebsite = entireWebsite;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ValidationRequestDTO other = (ValidationRequestDTO) obj;
-		return entireWebsite == other.entireWebsite && Objects.equals(href, other.href);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(entireWebsite, location);
+    }
 
-	@Override
-	public String toString() {
-		return "ValidationRequestDTO [href=" + href + ", entireWebsite=" + entireWebsite + "]";
-	}
-	
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ValidationRequestDTO other = (ValidationRequestDTO) obj;
+        return entireWebsite == other.entireWebsite && Objects.equals(location, other.location);
+    }
+
+    @Override
+    public String toString() {
+        return "ValidationRequestDTO [location=" + location + ", entireWebsite=" + entireWebsite + "]";
+    }
+
 }
