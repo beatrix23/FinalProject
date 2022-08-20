@@ -79,6 +79,11 @@ public class ValidationService {
         List<ValidationDTO> validationDTOs = new ArrayList<>();
         ValidationDTO validationDTO = new ValidationDTO();
         validationDTO.setMessages(convertMessages(validateHtml(requestDTO.getText())));
+        validationDTO.setLocation("text");
+        if (securityContext.getCurrentUser() != null) {
+            User user = securityContext.getCurrentUser();
+            saveValidation(user, validationDTO);
+        }
         validationDTOs.add(validationDTO);
         return validationDTOs;
     }

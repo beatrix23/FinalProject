@@ -7,61 +7,116 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<div class="container">
-    <mat-card-content>
-        <mat-card-title>
-            <h1>HTML5 Validator</h1>
-        </mat-card-title>
-        <mat-card-subtitle>
-            <h2>Validate your HTML5 code</h2>
-        </mat-card-subtitle>
-        <mat-card-content>
-            <mat-card-actions>
-                <div class="check-cont">
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>URL to website:</mat-label>
-                        <input matInput placeholder="Ex. https://cokescan.ro/" [(ngModel)]="validation.location">
+<c-carousel [wrap]="false" [interval]="0">
+    <c-carousel-inner>
+        <div class="upper-container">
+            <mat-card-content>
+                <mat-card-title>
+                    <h1 id="big-title">Html5Validator</h1>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    <h2 id="subtitle">Validate your HTML5 code</h2>
+                </mat-card-subtitle>
+            </mat-card-content>
+        </div>
+        <c-carousel-item>
+            <div class="container">
+                <mat-card-content>
+                    <mat-card-actions>
+                        <div class="check-cont">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>URL to website:</mat-label>
+                                <input matInput placeholder="Ex. https://cokescan.ro/"
+                                    [(ngModel)]="validation.location">
+                            </mat-form-field>
+                            <mat-checkbox color="primary" [(ngModel)]="validation.entireWebsite">Scan Entire Website
+                            </mat-checkbox>
+                        </div>
+                        <br />
+                        <button class="validate-button" mat-raised-button (click)="validate()">Validate</button>
+                    </mat-card-actions>
+                </mat-card-content>
+            </div>
+        </c-carousel-item>
+        <c-carousel-item>
+            <div class="container">
+                <mat-card-content>
+                    <mat-form-field style="width: 500px;" class="example-full-width" appearance="fill">
+                        <mat-label>Insert your html code here:</mat-label>
+                        <textarea matInput rows="7" cols="40" placeholder=""
+                            [(ngModel)]="textValidation.text"></textarea>
                     </mat-form-field>
-                    <mat-checkbox [(ngModel)]="validation.entireWebsite">Scan Entire Website
-                    </mat-checkbox>
-                </div>
-                <br />
-                <button mat-raised-button color="accent" (click)="validate()">Validate</button>
-            </mat-card-actions>
-        </mat-card-content>
-    </mat-card-content>
-</div>
+                    <mat-card-actions>
+                        <button mat-raised-button class="validate-button" (click)="validateText()">Validate</button>
+                    </mat-card-actions>
+                </mat-card-content>
+            </div>
+        </c-carousel-item>
+        <c-carousel-item>
+            <div class="container">
+                <mat-card-content>
+                    <input #myFileInput type="file" class="file-input" accept=".html, .htm" (change)="onFileSelected($event)" #fileUpload>
+
+                    <div class="file-upload">
+                        <span id="file-name">
+                            {{fileName || "No file uploaded yet."}}
+                        </span>
+                        <button mat-mini-fab class="upload-btn" (click)="fileUpload.click()">
+                            <mat-icon>attach_file</mat-icon>
+                        </button>
+                    </div>
+                    <mat-card-actions>
+                        <button mat-raised-button class="validate-button" id="file-button"
+                            (click)="showFileValidation()">Validate</button>
+                    </mat-card-actions>
+                </mat-card-content>
+            </div>
+        </c-carousel-item>
+    </c-carousel-inner>
+    <c-carousel-control id="myprevious" [routerLink] caption="Previous" direction="prev"></c-carousel-control>
+    <c-carousel-control id="mynext" [routerLink] caption="Next" direction="next"></c-carousel-control>
+</c-carousel>
 <div>
     <div *ngIf="showValidation">
-        <div *ngIf="showSpinner" id="spinner"> 
-            <mat-progress-spinner  [diameter]="40" mode="indeterminate"></mat-progress-spinner>
+        <div *ngIf="showSpinner" id="spinner">
+            <mat-progress-spinner [diameter]="40" mode="indeterminate"></mat-progress-spinner>
         </div>
         <div *ngFor="let item of response" class="resp-header">
             <mat-card-content>
                 <div class="link-container">
                     <div class="link">
                         <mat-card-title>
-                            <h3>{{item.location}}</h3>
+                            <h3>{{item.location === 'text' ? '' : item.location }}</h3>
                         </mat-card-title>
                     </div>
-                    <div *ngIf="seeComparation"class="history">
+                    <div *ngIf="seeComparation" class="history">
                         <button id="see-previous" (click)="history(item.location)">
-                            See Comparation with Previous Version
+                            Compare with previous version
+                        </button>
+                    </div>
+                    <div *ngIf="seeComparationForText" class="history">
+                        <button id="see-previous" (click)="historyLocation()">
+                            Compare with previous version
+                        </button>
+                    </div>
+                    <div *ngIf="seeComparationForFile" class="history">
+                        <button id="see-previous" (click)="historyLocation()">
+                            Compare with previous version
                         </button>
                     </div>
                 </div>
                 <div class="resp-container">
-                <mat-card-title>
-                    <div *ngFor="let message of item?.messages" class="validation">
-                        <div class="message">
-                            {{message.message}}
+                    <mat-card-title>
+                        <div *ngFor="let message of item?.messages" class="validation">
+                            <div class="message">
+                                {{message.message}}
+                            </div>
+                            <div class="location">
+                                {{message.location}}
+                            </div>
                         </div>
-                        <div class="location">
-                            {{message.location}}
-                        </div>
-                    </div>
-                </mat-card-title>
-            </div>
+                    </mat-card-title>
+                </div>
             </mat-card-content>
         </div>
     </div>

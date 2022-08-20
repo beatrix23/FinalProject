@@ -17,6 +17,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgxTextDiffModule } from 'ngx-text-diff';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CarouselModule } from '@coreui/angular';
+import { IconModule, IconSetService } from '@coreui/icons-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -55,7 +57,8 @@ export function tokenGetter() {
     MatToolbarModule,
     MatProgressSpinnerModule, 
     NgxTextDiffModule,
-
+    CarouselModule,
+    IconModule,
     
     JwtModule.forRoot({
       config: {
@@ -65,7 +68,7 @@ export function tokenGetter() {
       }
     })
   ],
-  providers:  [{provide: HTTP_INTERCEPTORS, useClass: TokenService, multi: true}],
+  providers:  [[IconSetService],{provide: HTTP_INTERCEPTORS, useClass: TokenService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
